@@ -1,12 +1,7 @@
 import random
 
-from auxiliary_functions import downloading_from_file, read_json
-from all_consts import ALPHA, MAX_ERRORS, JSON_WAY
-
-
-def drawing(gallow_path:str, errors: int) -> str:
-    gallow_draw = read_json(gallow_path)
-    return gallow_draw[str(errors)]
+from utils import read_json, download_file
+from all_consts import ALPHA, MAX_ERRORS, JSON_PATH
     
 
 def guessing(words: list[str]) -> None:
@@ -14,13 +9,13 @@ def guessing(words: list[str]) -> None:
     guessed = ["_"] * len(word)
     errors = 0
     used = []
-
+    gallow_draw = read_json(JSON_PATH)
     while True:
         print("\nСлово:", " ".join(guessed))
-        print(drawing(JSON_WAY, errors))
+        print(gallow_draw[str(errors)])
 
         if "_" not in guessed:
-            print("Поздравляем! Вы угадали слово!")
+            print("Поздравляю! Вы угадали слово!")
             break
 
         if errors >= MAX_ERRORS:
@@ -45,16 +40,16 @@ def guessing(words: list[str]) -> None:
             print("Такой буквы нет в загаданном слове. Осталось попыток:", MAX_ERRORS - errors)
         print("Использованные буквы: ", used)
 
-while True:
-    words = downloading_from_file("words.txt")
-    print("1. Начать новую игру")
-    print("2. Выйти")
-    choice = input("Выберите действие: ")
-
-    if choice == "1":
-        guessing(words)
-    elif choice == "2":
-        print("Спасибо за игру! До свидания!")
-        break
-    else:
-        print("Неверный выбор. Попробуйте снова.")
+def main() -> None:
+    words = download_file("words.txt")
+    while True:
+        print("1. Начать новую игру")
+        print("2. Выйти")
+        choice = input("Выберите действие: ")
+        if choice == "1":
+            guessing(words)
+        elif choice == "2":
+            print("Спасибо за игру! До свидания!")
+            break
+        else:
+            print("Неверный выбор. Попробуйте снова.")
