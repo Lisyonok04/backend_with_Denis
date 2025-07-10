@@ -8,8 +8,9 @@ def download_file(filename: str) -> list[str]:
             words = file.read().split()
     except Exception as e:
         print(f"Возникла ошибка при обработке файла: {e}")
-        return []
-    
+        return None
+    if not words:
+            raise ValueError("Файл слов пуст. Угадывать нечего...")
     return words
 
 def read_json(path: str) -> Optional[dict]:

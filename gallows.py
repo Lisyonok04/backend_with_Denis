@@ -1,15 +1,14 @@
 import random
 
 from utils import read_json, download_file
-from all_consts import ALPHA, MAX_ERRORS, JSON_PATH
+from all_consts import ALPHA, MAX_ERRORS, JSON_PATH, TXT_PATH
     
 
-def guessing(words: list[str]) -> None:
+def guessing(words: list[str], gallow_draw: list[str]) -> None:
     word = random.choice(words)
     guessed = ["_"] * len(word)
     errors = 0
     used = []
-    gallow_draw = read_json(JSON_PATH)
     while True:
         print("\nСлово:", " ".join(guessed))
         print(gallow_draw[str(errors)])
@@ -42,13 +41,16 @@ def guessing(words: list[str]) -> None:
         print("Использованные буквы: ", used)
 
 def main() -> None:
-    words = download_file("words.txt")
+    if not download_file(TXT_PATH) or not read_json(JSON_PATH):
+        return
+    words = download_file(TXT_PATH)
+    gallow_draw = read_json(JSON_PATH)
     while True:
         print("1. Начать новую игру")
         print("2. Выйти")
         choice = input("Выберите действие: ")
         if choice == "1":
-            guessing(words)
+            guessing(words, gallow_draw)
         elif choice == "2":
             print("Спасибо за игру! До свидания!")
             break
