@@ -41,10 +41,10 @@ def guessing(words: list[str], gallow_draw: list[str]) -> None:
         print("Использованные буквы: ", used)
 
 def main() -> None:
-    if not download_file(TXT_PATH) or not read_json(JSON_PATH):
-        return
     words = download_file(TXT_PATH)
     gallow_draw = read_json(JSON_PATH)
+    if not words or not gallow_draw:
+        return
     while True:
         print("1. Начать новую игру")
         print("2. Выйти")
