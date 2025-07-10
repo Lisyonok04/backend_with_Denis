@@ -31,11 +31,12 @@ def guessing(words: list[str]) -> None:
             print("Использованные буквы: ", used)
             letter = input("Введите букву: ").lower()
         used.append(letter)
-        if letter in word:
-            for i, char in enumerate(word):
-                if char == letter:
-                    guessed[i] = letter
-        else:
+        in_word = False
+        for i, char in enumerate(word):
+            if char == letter:
+                guessed[i] = letter
+                in_word = True
+        if not in_word:
             errors += 1
             print("Такой буквы нет в загаданном слове. Осталось попыток:", MAX_ERRORS - errors)
         print("Использованные буквы: ", used)

@@ -6,12 +6,16 @@ def download_file(filename: str) -> list[str]:
     try:
         with open(filename, "r", encoding="utf-8") as file:
             words = file.read().split()
-        if not words:
-            raise ValueError("Файл слов пуст. Угадывать нечего...")
-        return words
-    except FileNotFoundError:
-        print("Файл не найден! Повторите попытку.")
+    except Exception as e:
+        print(f"Возникла ошибка при обработке файла: {e}")
+        return []
+    
+    return words
 
 def read_json(path: str) -> Optional[dict]:
-    with open(path, "r", encoding="UTF-8") as file:
-        return load(file)
+    try:
+        with open(path, "r", encoding="UTF-8") as file:
+            return load(file)
+    except Exception as e:
+        print(f"Возникла ошибка при чтении файла: {e}")
+        return None
